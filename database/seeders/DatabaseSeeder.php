@@ -2,21 +2,37 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Book;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // 1. User Utama
+        User::create([
+            'name' => 'Admin1',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'status' => 'active',
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::create([
+            'name' => 'Tayo Coba',
+            'email' => 'tayo1@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'anggota',
+            'status' => 'active',
+            'member_card_id' => 'LIB-001-A',
+        ]);
+
+        // 2. Kategori
+        $this->call(CategorySeeder::class);
+
+        // 3. Data Buku (membutuhkan Kategori)
+        Book::factory(50)->create();
     }
 }
